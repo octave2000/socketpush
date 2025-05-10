@@ -1,0 +1,18 @@
+{
+  "name": "socketpush-web",
+  "version": "1.0.0",
+  "description": "SocketPush is a powerful, developer-friendly real-time communication engine that makes it effortless to send and receive events, messages, and notifications across clients and servers. With a simple yet flexible API, SocketPush lets you build scalable live features—like chats, alerts, presence, and custom event handling—without the boilerplate. Built for modern apps, it works seamlessly across frameworks and scales as your user base grows.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts"
+  },
+  "author": "Nkurunziza octave",
+  "license": "ISC",
+  "dependencies": {
+    "@types/ws": "^8.18.1",
+    "cookie": "^1.0.2",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3",
+    "ws": "^8.18.2"
+  }
+}
