@@ -1,24 +1,32 @@
 {
   "name": "socketpush-web",
   "version": "0.0.3",
+  "bin": {
+    "socketpush": "./dist/index.js"
+  },
   "private": false,
   "description": "SocketPush is a powerful, developer-friendly real-time communication engine that makes it effortless to send and receive events, messages, and notifications across clients and servers. With a simple yet flexible API, SocketPush lets you build scalable live features—like chats, alerts, presence, and custom event handling—without the boilerplate. Built for modern apps, it works seamlessly across frameworks and scales as your user base grows.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "vitest run",
-    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsc -w",
+    "build": "tsup src/index.ts src/scripts/writefile.ts --format cjs,esm --dts",
     "lint": "tsc",
+    "test": "vitest run",
     "ci": " npm run lint && npm run test && npm run build",
-    "release": "npm run lint && npm run test && npm run build && changeset publish"
+    "release": "npm run lint && npm run test && npm run build && changeset publish",
+    "postinstall": "node dist/scripts/writefile.js"
   },
   "author": "Nkurunziza octave",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@changesets/cli": "^2.29.3",
+    "@types/node": "^22.15.17",
     "@types/ws": "^8.18.1",
     "cookie": "^1.0.2",
+    "firebase": "^11.7.1",
+    "firebase-admin": "^13.3.0",
     "tsup": "^8.4.0",
     "typescript": "^5.8.3",
     "vitest": "^3.1.3",
