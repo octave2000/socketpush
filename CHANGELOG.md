@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.1.0
+
+### Minor Changes
+
+- 7c46e90: added core functionalities
+
 ## 0.0.3
 
 ### Patch Changes
