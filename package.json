@@ -1,6 +1,6 @@
 {
   "name": "socketpush-web",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "bin": {
     "socketpush": "./dist/index.js"
   },
@@ -16,7 +16,7 @@
     "test": "vitest run",
     "ci": " npm run lint && npm run test && npm run build",
     "release": "npm run lint && npm run test && npm run build && changeset publish",
-    "postinstall": "if [ -f dist/scripts/writefile.js ]; then node dist/scripts/writefile.js; fi"
+    "postinstall": "node -e \"const fs = require('fs'); const f = 'dist/scripts/writefile.js'; if (fs.existsSync(f)) require('child_process').execSync('node ' + f, { stdio: 'inherit' });\""
   },
   "author": "Nkurunziza octave",
   "license": "MIT",

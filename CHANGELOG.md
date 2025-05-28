@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.1.1
+
+### Patch Changes
+
+- updated postinstall command
+
 ## 0.1.0
 
 ### Minor Changes
