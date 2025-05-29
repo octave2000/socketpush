@@ -1,21 +1,15 @@
 import { onMessage, type Messaging } from "firebase/messaging";
 import { messaging } from "../firebase/firebase";
+import { useEffect } from "react";
 
 type MessageHandler = (payload: any) => void;
 
-let initialized: boolean = false;
-const handlers = new Set<MessageHandler>();
-
-export function onForeground(
+export function useOnForeground(
   handler: MessageHandler,
   messagingInstance: Messaging = messaging
 ) {
-  handlers.add(handler);
-
-  if (initialized) return;
-  initialized = true;
-
-  onMessage(messagingInstance, (payload) => {
-    handlers.forEach((h) => h(payload));
-  });
+  useEffect(() => {
+    const unsubscribe = onMessage(messagingInstance, handler);
+    return () => unsubscribe();
+  }, [handler, messagingInstance]);
 }
