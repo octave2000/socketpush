@@ -5,9 +5,9 @@ import {
 } from "../firebase/firebase";
 
 export const getSPToken = async (
-  vapidKey: string = "BFEv9Wgb_yzEmfRRL3ApQVPx9bdeXadQNz8DsSdnnThfV4XKC35tq9fWk0iOThQIbAYWcOvwdRFBHQMJwCvek-w",
-  maxRetries = 3,
-  messagingInstance: Messaging = defaultMessaging,
+  vapidKey: string,
+  maxRetries: number,
+  messagingInstance: Messaging,
   serviceWorker?: ServiceWorkerRegistration
 ): Promise<string | null> => {
   const defaultRegistration = await registerServiceWorker({

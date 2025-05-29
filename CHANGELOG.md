@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.1.2
+
+### Patch Changes
+
+- added an executable file and made react hook for get token
+
 ## 0.1.1
 
 ### Patch Changes
