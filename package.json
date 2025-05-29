@@ -11,7 +11,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "tsc -w",
-    "build": "tsup src/index.ts src/scripts/writefile.ts --format cjs,esm --dts --external react --banner.js='#!/usr/bin/env node'",
+    "build": "tsup src/index.ts src/scripts/writefile.ts --format cjs,esm --dts --external react ",
     "lint": "tsc",
     "test": "vitest run",
     "ci": " npm run lint && npm run test && npm run build",
