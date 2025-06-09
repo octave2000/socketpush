@@ -1,6 +1,6 @@
-import { onMessage, type Messaging } from "firebase/messaging";
-import { messaging } from "../firebase/firebase";
 import { useEffect } from "react";
+import { messaging } from "../firebase/firebase";
+import { type Messaging } from "firebase/messaging";
 
 type MessageHandler = (payload: any) => void;
 
@@ -9,7 +9,12 @@ export function useOnForeground(
   messagingInstance: Messaging = messaging
 ) {
   useEffect(() => {
-    const unsubscribe = onMessage(messagingInstance, handler);
-    return () => unsubscribe();
+    if (typeof window !== "undefined") {
+      import("firebase/messaging").then(({ onMessage }) => {
+        const unsubscribe = onMessage(messagingInstance, handler);
+
+        return () => unsubscribe();
+      });
+    }
   }, [handler, messagingInstance]);
 }
