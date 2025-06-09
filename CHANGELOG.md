@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.2.1
+
+### Patch Changes
+
+- export socket hook
+
 ## 0.2.0
 
 ### Minor Changes
