@@ -10,13 +10,16 @@ export const getSPToken = async (
   messagingInstance: Messaging,
   serviceWorker?: ServiceWorkerRegistration
 ): Promise<string | null> => {
-  const defaultRegistration = await registerServiceWorker({
-    swPath: "/socketpush-sw.js",
-  });
+  // ✅ Make sure we’re in the browser first
   if (typeof window === "undefined" || !("Notification" in window)) {
     console.warn("Notifications not supported in this environment");
     return null;
   }
+
+  // ✅ Only register the service worker in the browser
+  const defaultRegistration = await registerServiceWorker({
+    swPath: "/socketpush-sw.js",
+  });
 
   if (Notification.permission === "denied") {
     console.warn("Notification permission denied");

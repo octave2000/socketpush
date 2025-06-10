@@ -1,4 +1,6 @@
-import { socket } from "./instance";
+import { getSocket } from "./instance";
+
+const socket = getSocket();
 
 export const socketpush = {
   connect(alias?: string, app_uuid?: string) {

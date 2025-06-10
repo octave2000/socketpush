@@ -9,12 +9,17 @@ export function useOnForeground(
   messagingInstance: Messaging = messaging
 ) {
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      import("firebase/messaging").then(({ onMessage }) => {
-        const unsubscribe = onMessage(messagingInstance, handler);
+    // ✅ Only runs in the browser!
+    let unsubscribe: (() => void) | null = null;
+    const loadOnMessage = async () => {
+      const { onMessage } = await import("firebase/messaging");
+      unsubscribe = onMessage(messagingInstance, handler);
+    };
+    loadOnMessage();
 
-        return () => unsubscribe();
-      });
-    }
+    // Cleanup
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, [handler, messagingInstance]);
 }

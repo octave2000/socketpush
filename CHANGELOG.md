@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.2.2
+
+### Patch Changes
+
+- added read me
+
 ## 0.2.1
 
 ### Patch Changes

@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
-import { socket } from "../websocket/instance";
+import { useEffect, useRef, useState } from "react";
+
 import { socketpush } from "../websocket/wrappers";
+import { getSocket } from "../websocket/instance";
 
 // Types for socket events and callbacks
 type OnlineStatusCallback = (data: { isOnline: boolean; user: string }) => void;
@@ -28,21 +29,33 @@ export function useSocketPush() {
     customEvents: new Map(),
   });
 
+  // 🟢 Only create socket on client
+  const [socket, setSocket] = useState<ReturnType<typeof getSocket> | null>(
+    null
+  );
+
   useEffect(() => {
+    const s = getSocket();
+    setSocket(s);
+
     return () => {
       const { onMessage, onOnlineUsers, onOnlineStatus, customEvents } =
         callbacksRef.current;
 
-      if (onMessage) socket.off("receiveMessage", onMessage);
-      if (onOnlineUsers) socket.off("onlineUsers", onOnlineUsers);
-      if (onOnlineStatus) socket.off("status", onOnlineStatus);
+      if (s) {
+        if (onMessage) s.off("receiveMessage", onMessage);
+        if (onOnlineUsers) s.off("onlineUsers", onOnlineUsers);
+        if (onOnlineStatus) s.off("status", onOnlineStatus);
 
-      customEvents.forEach((cb, event) => socket.off(event, cb));
+        customEvents.forEach((cb, event) => s.off(event, cb));
+      }
+
       callbacksRef.current.customEvents.clear();
     };
   }, []);
 
   function onMessage(callback: MessageCallback) {
+    if (!socket) return;
     if (callbacksRef.current.onMessage) {
       socket.off("receiveMessage", callbacksRef.current.onMessage);
     }
@@ -51,6 +64,7 @@ export function useSocketPush() {
   }
 
   function onOnlineUsers(callback: OnlineUsersCallback) {
+    if (!socket) return;
     if (callbacksRef.current.onOnlineUsers) {
       socket.off("onlineUsers", callbacksRef.current.onOnlineUsers);
     }
@@ -60,6 +74,7 @@ export function useSocketPush() {
   }
 
   function onOnlineStatus(callback: OnlineStatusCallback) {
+    if (!socket) return;
     if (callbacksRef.current.onOnlineStatus) {
       socket.off("status", callbacksRef.current.onOnlineStatus);
     }
@@ -68,6 +83,7 @@ export function useSocketPush() {
   }
 
   function onEvent(event: string, callback: EventCallback) {
+    if (!socket) return;
     const existing = callbacksRef.current.customEvents.get(event);
     if (existing) {
       socket.off(event, existing);
