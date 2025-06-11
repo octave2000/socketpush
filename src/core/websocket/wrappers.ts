@@ -1,4 +1,3 @@
-import { database } from "firebase-admin";
 import { getSocket } from "./instance";
 
 const socket = getSocket();
@@ -72,7 +71,6 @@ export const socketpush = {
     app_uuid,
   }: {
     message: string;
-    sender: string;
     encrypted: boolean;
     room?: string;
     alias?: string;

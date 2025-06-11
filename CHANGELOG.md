@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.3.1
+
+### Patch Changes
+
+- solved childprocess fix
+
 ## 0.3.0
 
 ### Minor Changes
