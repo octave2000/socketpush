@@ -6,12 +6,15 @@ import { getSocket } from "../websocket/instance";
 // Types for socket events and callbacks
 type OnlineStatusCallback = (data: { isOnline: boolean; user: string }) => void;
 type OnlineUsersCallback = (users: string[]) => void;
-type MessageCallback = (
-  message: string,
-  encrypted: boolean,
-  from?: string,
-  room?: string
-) => void;
+type MessageCallback = ({
+  message,
+  encrypted,
+  sender,
+}: {
+  message: string;
+  encrypted: boolean;
+  sender: string;
+}) => void;
 type EventCallback = (data: any) => void;
 
 type CallbacksRef = {

@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.4.0
+
+### Minor Changes
+
+- stable expiremental version
+
 ## 0.3.1
 
 ### Patch Changes

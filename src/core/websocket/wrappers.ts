@@ -102,12 +102,15 @@ export const socketpush = {
   },
 
   onMessage(
-    callback: (
-      message: string,
-      encrypted: boolean,
-      from?: string,
-      room?: string
-    ) => void
+    callback: ({
+      message,
+      encrypted,
+      sender,
+    }: {
+      message: string;
+      encrypted: boolean;
+      sender: string;
+    }) => void
   ) {
     socket.on("receiveMessage", callback);
   },
