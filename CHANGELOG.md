@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.2.6
+
+### Patch Changes
+
+- changed event handling
+
 ## 0.2.5
 
 ### Patch Changes

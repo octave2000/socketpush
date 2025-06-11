@@ -1,58 +1,85 @@
+import { database } from "firebase-admin";
 import { getSocket } from "./instance";
 
 const socket = getSocket();
 
 export const socketpush = {
-  connect(alias?: string, app_uuid?: string) {
+  connect({ alias, app_uuid }: { alias?: string; app_uuid?: string }) {
     socket.emit("register", {
       app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
       alias,
     });
   },
 
-  trigger(
-    event: string,
-    room?: string,
-    alias?: string,
-    payload?: any,
-    app_uuid?: string
-  ) {
+  trigger({
+    event,
+    alias,
+    payload,
+    app_uuid,
+  }: {
+    event: string;
+
+    alias: string;
+    payload?: any;
+    app_uuid?: string;
+  }) {
     socket.emit("event", {
       event,
-      room,
       alias,
       payload,
       app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
     });
   },
+  triggerRoomEvents({
+    event,
+    room,
+    payload,
+    app_uuid,
+  }: {
+    event: string;
+    room: string;
+    payload?: any;
+    app_uuid?: string;
+  }) {
+    socket.emit("event", {
+      event,
+      room,
+      payload,
+      app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
+    });
+  },
 
-  join(room: string, alias: string, app_uuid?: string) {
+  join({ room, app_uuid }: { room: string; app_uuid?: string }) {
     socket.emit("join", {
       room,
-      alias,
       app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
     });
   },
 
-  leave(room: string, alias: string, app_uuid?: string) {
+  leave({ room, app_uuid }: { room: string; app_uuid?: string }) {
     socket.emit("leave", {
       room,
-      alias,
+
       app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
     });
   },
 
-  message(
-    message: string,
-    sender: string,
+  message({
+    message,
     encrypted = false,
-    room?: string,
-    alias?: string,
-    app_uuid?: string
-  ) {
+    room,
+    alias,
+    app_uuid,
+  }: {
+    message: string;
+    sender: string;
+    encrypted: boolean;
+    room?: string;
+    alias?: string;
+    app_uuid?: string;
+  }) {
     socket.emit("message", {
       message,
-      sender,
       encrypted,
       room,
       alias,
@@ -88,6 +115,8 @@ export const socketpush = {
   },
 
   onEvent(event: string, callback: (data: any) => void) {
-    socket.on(event, callback);
+    socket.on(event, (data) => {
+      callback(data);
+    });
   },
 };
