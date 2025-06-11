@@ -44,13 +44,15 @@ export const socketpush = {
 
   message(
     message: string,
-    room?: string,
+    sender: string,
     encrypted = false,
+    room?: string,
     alias?: string,
     app_uuid?: string
   ) {
     socket.emit("message", {
       message,
+      sender,
       encrypted,
       room,
       alias,
