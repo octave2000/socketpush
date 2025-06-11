@@ -97,6 +97,7 @@ export function useSocketPush() {
     trigger: socketpush.trigger,
     join: socketpush.join,
     leave: socketpush.leave,
+    triggerRoomEvents: socketpush.triggerRoomEvents,
     message: socketpush.message,
     getOnlineUsers: socketpush.getOnlineUsers,
     onMessage,

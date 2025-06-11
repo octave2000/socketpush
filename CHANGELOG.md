@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.3.0
+
+### Minor Changes
+
+- added triggerRoomEvents
+
 ## 0.2.6
 
 ### Patch Changes
