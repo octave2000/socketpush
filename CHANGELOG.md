@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.2.5
+
+### Patch Changes
+
+- added sender in message wrapper
+
 ## 0.2.4
 
 ### Patch Changes

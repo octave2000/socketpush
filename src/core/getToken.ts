@@ -26,7 +26,7 @@ export const getSPToken = async (
     return null;
   }
 
-  // Request permission if not already granted
+  // Request permission if not already granted by user
   if (Notification.permission !== "granted") {
     const permission = await Notification.requestPermission();
     if (permission !== "granted") {
