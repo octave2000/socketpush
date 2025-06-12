@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.4.1
+
+### Patch Changes
+
+- added event types
+
 ## 0.4.0
 
 ### Minor Changes

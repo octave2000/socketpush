@@ -15,7 +15,9 @@ type MessageCallback = ({
   encrypted: boolean;
   sender: string;
 }) => void;
-type EventCallback = (data: any) => void;
+type EventCallback = (
+  eventData: Record<string, string> | number | string | unknown
+) => void;
 
 type CallbacksRef = {
   onMessage: MessageCallback | null;
