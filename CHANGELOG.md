@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.4.3
+
+### Patch Changes
+
+- fix onlineusers
+
 ## 0.4.2
 
 ### Patch Changes
