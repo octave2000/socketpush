@@ -70,12 +70,20 @@ export function useSocketPush() {
 
   function onOnlineUsers(callback: OnlineUsersCallback) {
     if (!socket) return;
+
+    // Clear previous
     if (callbacksRef.current.onOnlineUsers) {
       socket.off("onlineUsers", callbacksRef.current.onOnlineUsers);
     }
+
+    // Save and bind new
     callbacksRef.current.onOnlineUsers = callback;
-    socketpush.getOnlineUsers();
-    socketpush.onOnlineUsers(callback);
+    socket.on("onlineUsers", callback);
+
+    // Trigger initial fetch
+    socket.emit("usersOnline", {
+      app_uuid: process.env.NEXT_PUBLIC_SOCKET_APP,
+    });
   }
 
   function onOnlineStatus(callback: OnlineStatusCallback) {
