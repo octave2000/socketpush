@@ -1,3 +1,4 @@
+import type { InternalPayload } from "../../types";
 import { getSocket } from "./instance";
 
 const socket = getSocket();
@@ -10,7 +11,7 @@ export const socketpush = {
     });
   },
 
-  trigger({
+  trigger<T extends Record<string, any>>({
     event,
     alias,
     payload,
@@ -19,7 +20,7 @@ export const socketpush = {
     event: string;
 
     alias: string;
-    payload?: any;
+    payload?: T & Partial<InternalPayload>;
     app_uuid?: string;
   }) {
     socket.emit("event", {
@@ -29,7 +30,8 @@ export const socketpush = {
       app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
     });
   },
-  triggerRoomEvents({
+
+  triggerRoomEvents<T extends Record<string, any>>({
     event,
     room,
     payload,
@@ -37,7 +39,7 @@ export const socketpush = {
   }: {
     event: string;
     room: string;
-    payload?: any;
+    payload?: T & Partial<InternalPayload>;
     app_uuid?: string;
   }) {
     socket.emit("event", {
@@ -115,7 +117,13 @@ export const socketpush = {
     socket.on("receiveMessage", callback);
   },
 
-  onEvent(event: string, callback: (data: any) => void) {
+  onEvent<T extends Record<string, any>>(
+    event: string,
+    callback: (data: {
+      payload: T & Partial<InternalPayload>;
+      isRoom: boolean;
+    }) => void
+  ) {
     socket.on(event, (data) => {
       callback(data);
     });

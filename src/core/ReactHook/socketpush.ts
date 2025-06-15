@@ -2,29 +2,13 @@ import { useEffect, useRef, useState } from "react";
 
 import { socketpush } from "../websocket/wrappers";
 import { getSocket } from "../websocket/instance";
-
-// Types for socket events and callbacks
-type OnlineStatusCallback = (data: { isOnline: boolean; user: string }) => void;
-type OnlineUsersCallback = (users: string[]) => void;
-type MessageCallback = ({
-  message,
-  encrypted,
-  sender,
-}: {
-  message: string;
-  encrypted: boolean;
-  sender: string;
-}) => void;
-type EventCallback = (
-  eventData: Record<string, string> | number | string | unknown
-) => void;
-
-type CallbacksRef = {
-  onMessage: MessageCallback | null;
-  onOnlineUsers: OnlineUsersCallback | null;
-  onOnlineStatus: OnlineStatusCallback | null;
-  customEvents: Map<string, EventCallback>;
-};
+import type {
+  CallbacksRef,
+  EventCallback,
+  MessageCallback,
+  OnlineStatusCallback,
+  OnlineUsersCallback,
+} from "../../types";
 
 export function useSocketPush() {
   const callbacksRef = useRef<CallbacksRef>({
@@ -34,7 +18,6 @@ export function useSocketPush() {
     customEvents: new Map(),
   });
 
-  // 🟢 Only create socket on client
   const [socket, setSocket] = useState<ReturnType<typeof getSocket> | null>(
     null
   );
@@ -74,7 +57,6 @@ export function useSocketPush() {
       socket.off("onlineUsers", callbacksRef.current.onOnlineUsers);
     }
 
-    // Save and bind new
     callbacksRef.current.onOnlineUsers = callback;
     socketpush.onOnlineUsers(callback);
   }
@@ -99,6 +81,7 @@ export function useSocketPush() {
   }
 
   return {
+    ready: !!socket,
     connect: socketpush.connect,
     trigger: socketpush.trigger,
     join: socketpush.join,
