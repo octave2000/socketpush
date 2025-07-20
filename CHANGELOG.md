@@ -1,5 +1,52 @@
 # socketpush-web
 
+## 0.7.0
+
+### Minor Changes
+
+- # useSocketPush Hook – v1.0.0
+
+  A lightweight, React-first WebSocket connection manager built around Socket.IO, offering safe connection handling, clean event management, and a developer-friendly API.
+
+  ## Features
+
+  ### Reactive Connection Management
+
+  - Tracks socket connection state with `connectionState` (`"disconnected" | "connecting" | "connected" | "error"`).
+  - Automatically attaches and cleans up connection listeners on mount/unmount.
+  - Provides `connect()` and `disconnect()` functions with proper state transitions and error handling.
+
+  ### Safe Command Execution
+
+  All outbound functions ensure the socket is connected before proceeding:
+
+  - `trigger()`
+  - `join()`
+  - `leave()`
+  - `message()`
+  - `roomEmit()`
+
+  Prevents race conditions and silent failures by throwing if connection isn't ready.
+
+  ### Real-Time Event Subscriptions
+
+  Easily subscribe to events with the following methods:
+
+  - `onMessage(callback)`
+  - `onDelivery(callback)`
+  - `onOnlineUsers(callback)`
+  - `onOnlineStatus(callback)`
+  - `onFetchUsers(callback)`
+  - `onEvent(eventName, callback)` – supports custom event listeners
+
+  Built-in cleanup ensures previous listeners are removed before new ones are registered.
+
+  ### Strong Typing & Performance
+
+  - All methods are fully typed with parameter inference from backend wrappers.
+  - Uses `useCallback` to memoize handlers and avoid unnecessary renders.
+  - Maintains all internal callbacks using `useRef` to preserve stability across renders.
+
 ## 0.6.0
 
 ### Minor Changes

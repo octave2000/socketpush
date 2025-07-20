@@ -10,6 +10,7 @@ export type OnlineStatusCallback = (data: {
   isOnline: boolean;
   user: string;
 }) => void;
+export type onFetchOnlineUsersCallback = (users: { alias: string }[]) => void;
 export type OnlineUsersCallback = (users: { alias: string }[]) => void;
 export type deliveryCallback = ({
   alias,
@@ -42,4 +43,5 @@ export type CallbacksRef = {
   onOnlineStatus: OnlineStatusCallback | null;
   onDelivery: deliveryCallback | null;
   customEvents: Map<string, EventCallback>;
+  onFetchOnlineUsers: onFetchOnlineUsersCallback | null;
 };

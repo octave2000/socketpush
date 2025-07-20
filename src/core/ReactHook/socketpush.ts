@@ -6,6 +6,7 @@ import type {
   deliveryCallback,
   EventCallback,
   MessageCallback,
+  onFetchOnlineUsersCallback,
   OnlineStatusCallback,
   OnlineUsersCallback,
 } from "../../types";
@@ -21,6 +22,7 @@ export function useSocketPush() {
     onOnlineUsers: null,
     onOnlineStatus: null,
     onDelivery: null,
+    onFetchOnlineUsers: null,
     customEvents: new Map(),
   });
 
@@ -125,7 +127,7 @@ export function useSocketPush() {
     [connectionState]
   );
 
-  const triggerRoomEvents = useCallback(
+  const roomEmit = useCallback(
     async (...args: Parameters<typeof socketpush.triggerRoomEvents>) => {
       ensureConnected();
       return socketpush.triggerRoomEvents(...args);
@@ -151,6 +153,17 @@ export function useSocketPush() {
       }
       callbacksRef.current.onDelivery = callback;
       socketpush.onDelivery(callback);
+    },
+    [socket]
+  );
+
+  const onFetchUsers = useCallback(
+    (callback: onFetchOnlineUsersCallback) => {
+      if (callbacksRef.current.onFetchOnlineUsers) {
+        socket.off("fetchOnlineUsers", callbacksRef.current.onFetchOnlineUsers);
+      }
+      callbacksRef.current.onFetchOnlineUsers = callback;
+      socketpush.fetchOnlineUsers(callback);
     },
     [socket]
   );
@@ -197,12 +210,13 @@ export function useSocketPush() {
     trigger,
     join,
     leave,
-    triggerRoomEvents,
+    roomEmit,
     message,
     onMessage,
     onOnlineUsers,
     onOnlineStatus,
     onEvent,
+    onFetchUsers,
     onDelivery,
   };
 }
