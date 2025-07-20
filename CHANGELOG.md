@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.6.0
+
+### Minor Changes
+
+- Enhanced developer experience with improved real-time communication capabilities. This release introduces new features for seamless integration with React hooks and extends web notification support, making it easier to build interactive applications.
+
 ## 0.5.0
 
 ### Minor Changes
