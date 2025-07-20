@@ -10,7 +10,18 @@ export type OnlineStatusCallback = (data: {
   isOnline: boolean;
   user: string;
 }) => void;
-export type OnlineUsersCallback = (users: string[]) => void;
+export type OnlineUsersCallback = (users: { alias: string }[]) => void;
+export type deliveryCallback = ({
+  alias,
+  status,
+  evtId,
+  msgId,
+}: {
+  alias: string;
+  status: string;
+  msgId?: string;
+  evtId?: string;
+}) => void;
 export type MessageCallback = ({
   message,
   encrypted,
@@ -29,5 +40,6 @@ export type CallbacksRef = {
   onMessage: MessageCallback | null;
   onOnlineUsers: OnlineUsersCallback | null;
   onOnlineStatus: OnlineStatusCallback | null;
+  onDelivery: deliveryCallback | null;
   customEvents: Map<string, EventCallback>;
 };

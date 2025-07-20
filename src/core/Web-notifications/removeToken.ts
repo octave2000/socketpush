@@ -1,5 +1,5 @@
 import { deleteToken, type Messaging } from "firebase/messaging";
-import { messaging } from "../firebase/firebase";
+import { messaging } from "../../firebase/firebase";
 
 export const removeToken = async (
   messagingInstance: Messaging = messaging

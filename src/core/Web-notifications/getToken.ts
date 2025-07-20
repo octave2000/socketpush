@@ -2,7 +2,7 @@ import { getToken, type Messaging } from "firebase/messaging";
 import {
   messaging as defaultMessaging,
   registerServiceWorker,
-} from "../firebase/firebase";
+} from "../../firebase/firebase";
 
 export const getSPToken = async (
   vapidKey: string,
@@ -10,13 +10,11 @@ export const getSPToken = async (
   messagingInstance: Messaging,
   serviceWorker?: ServiceWorkerRegistration
 ): Promise<string | null> => {
-  // ✅ Make sure we’re in the browser first
   if (typeof window === "undefined" || !("Notification" in window)) {
     console.warn("Notifications not supported in this environment");
     return null;
   }
 
-  // ✅ Only register the service worker in the browser
   const defaultRegistration = await registerServiceWorker({
     swPath: "/socketpush-sw.js",
   });
@@ -26,7 +24,6 @@ export const getSPToken = async (
     return null;
   }
 
-  // Request permission if not already granted by user
   if (Notification.permission !== "granted") {
     const permission = await Notification.requestPermission();
     if (permission !== "granted") {
@@ -35,7 +32,6 @@ export const getSPToken = async (
     }
   }
 
-  // Try fetching the token with retries
   let attempt = 0;
   while (attempt < maxRetries) {
     try {

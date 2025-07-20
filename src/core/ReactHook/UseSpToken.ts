@@ -1,7 +1,7 @@
 import type { Messaging } from "firebase/messaging";
 import { useEffect, useState } from "react";
 import { messaging as defaultMessaging } from "../../firebase/firebase";
-import { getSPToken } from "../getToken";
+import { getSPToken } from "../Web-notifications/getToken";
 
 export const useSpToken = (
   vapidKey: string = "BFEv9Wgb_yzEmfRRL3ApQVPx9bdeXadQNz8DsSdnnThfV4XKC35tq9fWk0iOThQIbAYWcOvwdRFBHQMJwCvek-w",
