@@ -1,44 +1,9 @@
+import { resolve } from "path";
 import type { InternalPayload } from "../../types";
 import { getSocket } from "./instance";
+import type { P } from "vitest/dist/chunks/environment.d.Dmw5ulng.js";
 
 const socket = getSocket();
-
-function emitWithAck<T>(
-  eventName: string,
-  data: any,
-  timeout = 5000
-): Promise<T> {
-  return new Promise((resolve, reject) => {
-    if (!socket.connected) {
-      return reject(
-        new Error(
-          "Socket not connected. Please connect before emitting events."
-        )
-      );
-    }
-
-    const timer = setTimeout(() => {
-      reject(new Error(`Event '${eventName}' timed out after ${timeout}ms`));
-    }, timeout);
-
-    socket.emit(eventName, data, (response: T) => {
-      clearTimeout(timer);
-      if (
-        response &&
-        typeof response === "object" &&
-        "success" in response &&
-        !response.success
-      ) {
-        const message =
-          "message" in response && typeof response.message === "string"
-            ? response.message
-            : `Event '${eventName}' failed.`;
-        return reject(new Error(message));
-      }
-      resolve(response);
-    });
-  });
-}
 
 export const socketpush = {
   connect({
@@ -51,24 +16,32 @@ export const socketpush = {
     app_uuid?: string;
     token?: string;
     metadata?: Record<string, any>;
-  }): Promise<{ success: boolean; message?: string }> {
-    return new Promise((resolve, reject) => {
-      socket.io.on("open", () => {
-        emitWithAck<{ success: boolean; message?: string }>("register", {
-          app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
+  }): Promise<{ success: boolean; message: string }> {
+    const appId = app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP;
+
+    return new Promise((resolve) => {
+      socket.emit(
+        "register",
+        {
+          app_uuid: appId,
           alias,
           token,
           metadata,
-        })
-          .then(resolve)
-          .catch((error) => {
-            console.error("Registration failed:", error.message);
-            reject(error);
-          });
-      });
-      socket.io.on("error", (err) => {
-        reject(new Error(`Connection failed: ${err.message}`));
-      });
+        },
+        (response: { success: boolean; message?: string }) => {
+          if (response?.success) {
+            resolve({
+              success: true,
+              message: response.message || "Connected successfully",
+            });
+          } else {
+            resolve({
+              success: false,
+              message: response.message || "Connection failed",
+            });
+          }
+        }
+      );
     });
   },
 
@@ -82,12 +55,30 @@ export const socketpush = {
     alias: string;
     payload?: T & Partial<InternalPayload>;
     app_uuid?: string;
-  }) {
-    return emitWithAck("event", {
-      event,
-      alias,
-      payload,
-      app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
+  }): Promise<{ success: boolean; message?: string }> {
+    return new Promise((resolve) => {
+      socket.emit(
+        "event",
+        {
+          event,
+          alias,
+          payload,
+          app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
+        },
+        (response: { success: boolean; message?: string }) => {
+          if (response?.success) {
+            resolve({
+              success: true,
+              message: response.message || "Event triggered successfully",
+            });
+          } else {
+            resolve({
+              success: false,
+              message: response.message || "Failed to trigger event",
+            });
+          }
+        }
+      );
     });
   },
 
@@ -101,26 +92,92 @@ export const socketpush = {
     room: string;
     payload?: T & Partial<InternalPayload>;
     app_uuid?: string;
-  }) {
-    return emitWithAck("roomevents", {
-      event,
-      room,
-      payload,
-      app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
+  }): Promise<{ success: boolean; message?: string }> {
+    return new Promise((resolve) => {
+      socket.emit(
+        "roomevents",
+        {
+          event,
+          room,
+          payload,
+          app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
+        },
+        (response: { success: boolean; message?: string }) => {
+          if (response?.success) {
+            resolve({
+              success: true,
+              message: response.message || "Room event triggered successfully",
+            });
+          } else {
+            resolve({
+              success: false,
+              message: response.message || "Failed to trigger room event",
+            });
+          }
+        }
+      );
     });
   },
 
-  join({ room, app_uuid }: { room: string; app_uuid?: string }) {
-    return emitWithAck("join", {
-      room,
-      app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
+  join({
+    room,
+    app_uuid,
+  }: {
+    room: string;
+    app_uuid?: string;
+  }): Promise<{ success: boolean; message?: string }> {
+    return new Promise((resolve) => {
+      socket.emit(
+        "join",
+        {
+          room,
+          app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
+        },
+        (response: { success: boolean; message?: string }) => {
+          if (response?.success) {
+            resolve({
+              success: true,
+              message: response.message || "Joined room successfully",
+            });
+          } else {
+            resolve({
+              success: false,
+              message: response.message || "Failed to join room",
+            });
+          }
+        }
+      );
     });
   },
 
-  leave({ room, app_uuid }: { room: string; app_uuid?: string }) {
-    return emitWithAck("leave", {
-      room,
-      app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
+  leave({
+    room,
+    app_uuid,
+  }: {
+    room: string;
+    app_uuid?: string;
+  }): Promise<{ success: boolean; message?: string }> {
+    return new Promise((resolve) => {
+      socket.emit(
+        "leave",
+        {
+          room,
+          app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
+        },
+        (response: { success: boolean; message?: string }) => {
+          if (response?.success) {
+            resolve({
+              success: true,
+              message: response.message || "Left room successfully",
+            });
+          } else {
+            resolve({
+              success: false,
+              message: response.message || "Failed to leave room",
+            });
+          }
+        }
+      );
     });
   },
 
@@ -138,14 +195,32 @@ export const socketpush = {
     alias?: string;
     app_uuid?: string;
     msgId?: string;
-  }) {
-    return emitWithAck("message", {
-      message,
-      encrypted,
-      room,
-      alias,
-      msgId,
-      app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
+  }): Promise<{ success: boolean; message?: string }> {
+    return new Promise((resolve) => {
+      socket.emit(
+        "message",
+        {
+          message,
+          encrypted,
+          room,
+          alias,
+          msgId,
+          app_uuid: app_uuid || process.env.NEXT_PUBLIC_SOCKET_APP,
+        },
+        (response: { success: boolean; message?: string }) => {
+          if (response?.success) {
+            resolve({
+              success: true,
+              message: response.message || "Message sent successfully",
+            });
+          } else {
+            resolve({
+              success: false,
+              message: response.message || "Failed to send message",
+            });
+          }
+        }
+      );
     });
   },
 
