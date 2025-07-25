@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.7.2
+
+### Patch Changes
+
+- removed emit with ack
+
 ## 0.7.1
 
 ### Patch Changes
