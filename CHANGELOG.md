@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.7.3
+
+### Patch Changes
+
+- change the url
+
 ## 0.7.2
 
 ### Patch Changes

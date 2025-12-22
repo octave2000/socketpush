@@ -1,6 +1,6 @@
 {
   "name": "socketpush-web",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "bin": {
     "socketpush": "./dist/scripts/writefile.js"
   },

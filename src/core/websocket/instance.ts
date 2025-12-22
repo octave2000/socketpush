@@ -5,7 +5,7 @@ let socket: Socket | null = null;
 
 export function getSocket(): Socket {
   if (!socket && typeof window !== "undefined") {
-    socket = io("https://realsyncbackend-ja9x.onrender.com");
+    socket = io("https://websocket.hubfly.app");
   }
   return socket as Socket;
 }
