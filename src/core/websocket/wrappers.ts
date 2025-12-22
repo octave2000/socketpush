@@ -1,7 +1,6 @@
 import { resolve } from "path";
 import type { InternalPayload } from "../../types";
 import { getSocket } from "./instance";
-import type { P } from "vitest/dist/chunks/environment.d.Dmw5ulng.js";
 
 const socket = getSocket();
 
