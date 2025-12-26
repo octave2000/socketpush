@@ -15,7 +15,7 @@ export const sendSPNotification = async (
     data?: Record<string, any>;
     actions?: { action: string; title: string }[];
   } = {},
-  api: string = "https://realsyncbackend-ja9x.onrender.com/send-notification"
+  api: string = "https://websocket.hubfly.app/send-notification"
 ) => {
   if (!token) return { success: false, message: "Missing token" };
 

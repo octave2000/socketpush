@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.8.0
+
+### Minor Changes
+
+- change of urls in package
+
 ## 0.7.4
 
 ### Patch Changes
