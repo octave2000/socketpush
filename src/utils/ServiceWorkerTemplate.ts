@@ -1,7 +1,7 @@
 export const sw = `
 
 importScripts(
-  "https://realsyncbackend-ja9x.onrender.com/socketpush-service-worker.js"
+  "https://websocket.hubfly.app/socketpush-service-worker.js"
 );
 
 
