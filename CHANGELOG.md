@@ -1,5 +1,11 @@
 # socketpush-web
 
+## 0.9.0
+
+### Minor Changes
+
+- added api key
+
 ## 0.8.0
 
 ### Minor Changes
