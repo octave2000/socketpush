@@ -1,4 +1,10 @@
-# socketpush-web
+# hubsync-web
+
+## 0.10.0
+
+### Minor Changes
+
+- updated the server
 
 ## 0.9.0
 
