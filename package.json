@@ -1,10 +1,14 @@
 {
   "name": "hubsync-web",
-  "version": "0.11.1",
+  "version": "0.11.2",
   "bin": {
     "hubsync": "./dist/scripts/writefile.js"
   },
   "private": false,
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
   "description": "HubSync is a powerful, developer-friendly real-time communication engine that makes it effortless to send and receive events, messages, and notifications across clients and servers. With a simple yet flexible API, HubSync lets you build scalable live features—like chats, alerts, presence, and custom event handling—without the boilerplate. Built for modern apps, it works seamlessly across frameworks and scales as your user base grows.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
