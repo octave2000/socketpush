@@ -1,6 +1,6 @@
 import type { Messaging } from "firebase/messaging";
 import { useEffect, useState } from "react";
-import { messaging as defaultMessaging } from "../../firebase/firebase";
+import { getMessagingInstance } from "../../firebase/firebase";
 import { getHubSyncToken } from "../Web-notifications/getToken";
 
 const DEFAULT_VAPID_KEY =
@@ -17,7 +17,7 @@ type UseHubSyncTokenOptions = {
 export const useHubSyncToken = (
   optionsOrVapidKey: UseHubSyncTokenOptions | string = DEFAULT_VAPID_KEY,
   maxRetries = 3,
-  messagingInstance: Messaging = defaultMessaging,
+  messagingInstance?: Messaging,
   serviceWorker?: ServiceWorkerRegistration
 ) => {
   const resolved =
@@ -32,8 +32,7 @@ export const useHubSyncToken = (
       : {
           vapidKey: optionsOrVapidKey.vapidKey || DEFAULT_VAPID_KEY,
           maxRetries: optionsOrVapidKey.maxRetries ?? 3,
-          messagingInstance:
-            optionsOrVapidKey.messagingInstance || defaultMessaging,
+          messagingInstance: optionsOrVapidKey.messagingInstance,
           serviceWorker: optionsOrVapidKey.serviceWorker,
           onError: optionsOrVapidKey.onError,
         };
@@ -43,10 +42,12 @@ export const useHubSyncToken = (
   useEffect(() => {
     let isMounted = true;
     const getToken = async () => {
+      const activeMessaging =
+        resolved.messagingInstance || (await getMessagingInstance());
       const t = await getHubSyncToken(
         resolved.vapidKey,
         resolved.maxRetries,
-        resolved.messagingInstance,
+        activeMessaging,
         resolved.serviceWorker,
         resolved.onError
       );
