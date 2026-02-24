@@ -4,11 +4,12 @@ import {
   registerServiceWorker,
 } from "../../firebase/firebase";
 
-export const getSPToken = async (
+export const getHubSyncToken = async (
   vapidKey: string,
   maxRetries: number,
   messagingInstance: Messaging,
-  serviceWorker?: ServiceWorkerRegistration
+  serviceWorker?: ServiceWorkerRegistration,
+  onError?: (error: unknown) => void
 ): Promise<string | null> => {
   if (typeof window === "undefined" || !("Notification" in window)) {
     console.warn("Notifications not supported in this environment");
@@ -16,7 +17,7 @@ export const getSPToken = async (
   }
 
   const defaultRegistration = await registerServiceWorker({
-    swPath: "/socketpush-sw.js",
+    swPath: "/hubsync-sw.js",
   });
 
   if (Notification.permission === "denied") {
@@ -47,6 +48,7 @@ export const getSPToken = async (
       }
     } catch (err) {
       console.error(`Error fetching FCM token (attempt ${attempt + 1})`, err);
+      if (onError) onError(err);
     }
 
     attempt++;
@@ -56,3 +58,5 @@ export const getSPToken = async (
   console.error("Failed to obtain FCM token after retries");
   return null;
 };
+
+export const getSPToken = getHubSyncToken;

@@ -1,8 +1,10 @@
-export const sendSPNotification = async (
+export const sendHubSyncNotification = async (
   token: string,
   {
     title = "Notification Title",
     message = "You have a new message.",
+    body,
+    icon,
     link,
     type = "default",
     data = {},
@@ -10,6 +12,8 @@ export const sendSPNotification = async (
   }: {
     title?: string;
     message?: string;
+    body?: string;
+    icon?: string;
     link?: string;
     type?: string;
     data?: Record<string, any>;
@@ -19,7 +23,18 @@ export const sendSPNotification = async (
 ) => {
   if (!token) return { success: false, message: "Missing token" };
 
-  const payload = { token, title, message, link, type, data, actions };
+  const finalMessage = body || message;
+  const payload = {
+    token,
+    title,
+    message: finalMessage,
+    body: finalMessage,
+    icon,
+    link,
+    type,
+    data,
+    actions,
+  };
 
   try {
     const res = await fetch(api, {
@@ -46,3 +61,5 @@ export const sendSPNotification = async (
     return { success: false, message: (err as Error).message };
   }
 };
+
+export const sendSPNotification = sendHubSyncNotification;
