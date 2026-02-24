@@ -1,10 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const socketMock = {
-  emit: vi.fn(),
-  on: vi.fn(),
-  off: vi.fn(),
-};
+const { socketMock } = vi.hoisted(() => ({
+  socketMock: {
+    emit: vi.fn(),
+    on: vi.fn(),
+    off: vi.fn(),
+  },
+}));
 
 vi.mock("./instance", () => ({
   getSocket: () => socketMock,

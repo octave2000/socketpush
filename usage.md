@@ -55,7 +55,6 @@ npx hubsync
 It writes:
 
 - `public/hubsync-sw.js`
-- `public/socketpush-sw.js` (legacy fallback)
 
 The generated worker imports the remote worker script from HubSync infrastructure.
 
