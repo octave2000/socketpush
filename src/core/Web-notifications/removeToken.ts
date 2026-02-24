@@ -1,11 +1,13 @@
-import { deleteToken, type Messaging } from "firebase/messaging";
-import { messaging } from "../../firebase/firebase";
+import type { Messaging } from "firebase/messaging";
+import { getMessagingInstance } from "../../firebase/firebase";
 
 export const removeToken = async (
-  messagingInstance: Messaging = messaging
+  messagingInstance?: Messaging
 ): Promise<boolean> => {
   try {
-    const result = await deleteToken(messagingInstance);
+    const activeMessaging = messagingInstance || (await getMessagingInstance());
+    const { deleteToken } = await import("firebase/messaging");
+    const result = await deleteToken(activeMessaging);
     return result;
   } catch (error) {
     throw error;

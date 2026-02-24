@@ -1,13 +1,13 @@
-import { getToken, type Messaging } from "firebase/messaging";
+import type { Messaging } from "firebase/messaging";
 import {
-  messaging as defaultMessaging,
+  getMessagingInstance,
   registerServiceWorker,
 } from "../../firebase/firebase";
 
 export const getHubSyncToken = async (
   vapidKey: string,
   maxRetries: number,
-  messagingInstance: Messaging,
+  messagingInstance?: Messaging,
   serviceWorker?: ServiceWorkerRegistration,
   onError?: (error: unknown) => void
 ): Promise<string | null> => {
@@ -19,6 +19,9 @@ export const getHubSyncToken = async (
   const defaultRegistration = await registerServiceWorker({
     swPath: "/hubsync-sw.js",
   });
+
+  const activeMessaging = messagingInstance || (await getMessagingInstance());
+  const { getToken } = await import("firebase/messaging");
 
   if (Notification.permission === "denied") {
     console.warn("Notification permission denied");
@@ -36,7 +39,7 @@ export const getHubSyncToken = async (
   let attempt = 0;
   while (attempt < maxRetries) {
     try {
-      const token = await getToken(messagingInstance, {
+      const token = await getToken(activeMessaging, {
         vapidKey: vapidKey,
         serviceWorkerRegistration: serviceWorker || defaultRegistration,
       });

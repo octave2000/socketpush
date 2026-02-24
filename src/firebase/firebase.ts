@@ -1,5 +1,5 @@
 import { initializeApp, type FirebaseApp } from "firebase/app";
-import { getMessaging, type Messaging } from "firebase/messaging";
+import type { Messaging } from "firebase/messaging";
 
 type FirebaseConfig = {
   apiKey: string;
@@ -21,8 +21,31 @@ const defaultConfig: FirebaseConfig = {
   measurementId: "G-91G1B0L5YC",
 };
 
-const firebaseApp = initializeApp(defaultConfig);
-const messaging = getMessaging(firebaseApp);
+let firebaseApp: FirebaseApp | null = null;
+let messagingInstance: Messaging | null = null;
+
+function getFirebaseApp(config: FirebaseConfig = defaultConfig): FirebaseApp {
+  if (!firebaseApp) {
+    firebaseApp = initializeApp(config);
+  }
+
+  return firebaseApp;
+}
+
+async function getMessagingInstance(
+  config: FirebaseConfig = defaultConfig
+): Promise<Messaging> {
+  if (typeof window === "undefined") {
+    throw new Error("Firebase Messaging is only available in browser environments.");
+  }
+
+  if (!messagingInstance) {
+    const { getMessaging } = await import("firebase/messaging");
+    messagingInstance = getMessaging(getFirebaseApp(config));
+  }
+
+  return messagingInstance;
+}
 
 async function registerServiceWorker(options: {
   swPath?: string;
@@ -33,9 +56,14 @@ async function registerServiceWorker(options: {
   return registration;
 }
 
-function webPushInit(config: FirebaseConfig): Messaging {
+async function webPushInit(config: FirebaseConfig): Promise<Messaging> {
+  if (typeof window === "undefined") {
+    throw new Error("Firebase Messaging is only available in browser environments.");
+  }
+
+  const { getMessaging } = await import("firebase/messaging");
   const app: FirebaseApp = initializeApp(config);
   return getMessaging(app);
 }
 
-export { messaging, registerServiceWorker, webPushInit };
+export { registerServiceWorker, webPushInit, getMessagingInstance };
