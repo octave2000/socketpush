@@ -4,5 +4,5 @@ export * from "./core/Web-notifications/sendToken";
 export * from "./core/Web-notifications/removeToken";
 export * from "./core/ReactHook/UseSpToken";
 export * from "./core/websocket/wrappers";
-export * from "./core/ReactHook/socketpush";
+export * from "./core/ReactHook/hubsync";
 export * from "./types";

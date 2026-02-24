@@ -27,11 +27,30 @@ const messaging = getMessaging(firebaseApp);
 async function registerServiceWorker(options: {
   swPath?: string;
 }): Promise<ServiceWorkerRegistration> {
-  const registration = await navigator.serviceWorker.register(
-    options.swPath || "/socketpush-sw.js"
-  );
-  console.log("[real-sync] Service worker registered:", registration.scope);
-  return registration;
+  const primaryPath = options.swPath || "/hubsync-sw.js";
+
+  try {
+    const registration = await navigator.serviceWorker.register(primaryPath);
+    console.log("[hubsync] Service worker registered:", registration.scope);
+    return registration;
+  } catch (error) {
+    if (primaryPath !== "/hubsync-sw.js") {
+      throw error;
+    }
+
+    const legacyPath = "/socketpush-sw.js";
+    console.warn(
+      `[hubsync] Failed to register ${primaryPath}, retrying with ${legacyPath}`
+    );
+    const fallbackRegistration = await navigator.serviceWorker.register(
+      legacyPath
+    );
+    console.log(
+      "[hubsync] Service worker registered via legacy path:",
+      fallbackRegistration.scope
+    );
+    return fallbackRegistration;
+  }
 }
 
 function webPushInit(config: FirebaseConfig): Messaging {
