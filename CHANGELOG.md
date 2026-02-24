@@ -1,5 +1,11 @@
 # hubsync-web
 
+## 0.11.1
+
+### Patch Changes
+
+- remove files
+
 ## 0.11.0
 
 ### Minor Changes

@@ -3,3 +3,6 @@ src
 .github
 package-lock.json
 tsconfig.json
+new.md
+features.md
+usage.md
