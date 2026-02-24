@@ -1,7 +1,7 @@
 export const sw = `
 
 importScripts(
-  "https://websocket.hubfly.app/hubsync-service-worker.js"
+  "https://distracted-feistel-3smkfr.eu1.hubfly.app/socketpush-service-worker.js"
 );
 
 
