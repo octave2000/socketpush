@@ -473,6 +473,35 @@ Backward-compatible aliases currently exported:
 - `sendSPNotification` -> `sendHubSyncNotification`
 - `socketpush` -> `hubsync`
 
+## 12.1 Server HTTP API client (`hubsync-web/server`)
+
+Use this in **Node.js** (e.g. Next.js Route Handlers) to call HubSync HTTP endpoints.
+
+```ts
+import { createHubSyncHttpClient } from "hubsync-web/server";
+
+const hub = createHubSyncHttpClient({
+  baseUrl: "https://websocket.hubfly.app", // optional
+  appId: process.env.NEXT_PUBLIC_SOCKET_APP, // or pass app_uuid per call
+  apiKey: process.env.SOCKET_API_KEY, // optional if backend expects it
+});
+
+await hub.eventAlias({
+  alias: "user-a",
+  event: "notifications.updated",
+  payload: { count: 3 },
+});
+```
+
+Available methods:
+
+- `event`, `eventAlias`, `eventApp`, `eventRoom`, `topic`
+- `subscribe`, `unsubscribe`, `join`, `leave`
+- `message`, `messageAlias`, `messageRoom`
+- `onlineUsers`, `onlineStatus`, `disconnect`
+- `scheduleAlias`, `scheduleRoom`, `listSchedules`, `deleteSchedule`, `undelivered`
+- `verifyToken`
+
 ## 13) Troubleshooting
 
 ### Connection fails or never registers
