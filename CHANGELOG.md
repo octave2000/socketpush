@@ -1,5 +1,11 @@
 # hubsync-web
 
+## 0.12.0
+
+### Minor Changes
+
+- e743148: update socket server
+
 ## 0.11.2
 
 ### Patch Changes
