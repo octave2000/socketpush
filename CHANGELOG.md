@@ -1,5 +1,11 @@
 # hubsync-web
 
+## 0.14.0
+
+### Minor Changes
+
+- update the endpoint
+
 ## 0.13.0
 
 ### Minor Changes

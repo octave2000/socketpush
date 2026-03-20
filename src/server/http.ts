@@ -162,7 +162,7 @@ export type HubSyncHttpClient = {
   ): Promise<T>;
 };
 
-const defaultBaseUrl = "https://websocket.hubfly.app";
+const defaultBaseUrl = "https://ylpv246y.eu1.hubfly.app";
 
 function resolveBaseUrl(baseUrl?: string) {
   return (baseUrl || defaultBaseUrl).replace(/\/+$/, "");
@@ -261,54 +261,99 @@ export function createHubSyncHttpClient(
     request,
 
     event: (params, req) =>
-      request("POST", "/api/event", {
-        ...params,
-        app_uuid: resolveAppId(options, params.app_uuid),
-      }, req),
+      request(
+        "POST",
+        "/api/event",
+        {
+          ...params,
+          app_uuid: resolveAppId(options, params.app_uuid),
+        },
+        req
+      ),
     eventAlias: (params, req) =>
-      request("POST", "/api/event/alias", {
-        ...params,
-        app_uuid: resolveAppId(options, params.app_uuid),
-      }, req),
+      request(
+        "POST",
+        "/api/event/alias",
+        {
+          ...params,
+          app_uuid: resolveAppId(options, params.app_uuid),
+        },
+        req
+      ),
     eventApp: (params, req) =>
-      request("POST", "/api/event/app", {
-        ...params,
-        app_uuid: resolveAppId(options, params.app_uuid),
-      }, req),
+      request(
+        "POST",
+        "/api/event/app",
+        {
+          ...params,
+          app_uuid: resolveAppId(options, params.app_uuid),
+        },
+        req
+      ),
     eventRoom: (params, req) => request("POST", "/api/event/room", params, req),
     topic: (params, req) => request("POST", "/api/topic", params, req),
 
     subscribe: (params, req) =>
-      request("POST", "/api/subscribe", {
-        ...params,
-        app_uuid: resolveAppId(options, params.app_uuid),
-      }, req),
+      request(
+        "POST",
+        "/api/subscribe",
+        {
+          ...params,
+          app_uuid: resolveAppId(options, params.app_uuid),
+        },
+        req
+      ),
     unsubscribe: (params, req) =>
-      request("POST", "/api/unsubscribe", {
-        ...params,
-        app_uuid: resolveAppId(options, params.app_uuid),
-      }, req),
+      request(
+        "POST",
+        "/api/unsubscribe",
+        {
+          ...params,
+          app_uuid: resolveAppId(options, params.app_uuid),
+        },
+        req
+      ),
     join: (params, req) =>
-      request("POST", "/api/join", {
-        ...params,
-        app_uuid: resolveAppId(options, params.app_uuid),
-      }, req),
+      request(
+        "POST",
+        "/api/join",
+        {
+          ...params,
+          app_uuid: resolveAppId(options, params.app_uuid),
+        },
+        req
+      ),
     leave: (params, req) =>
-      request("POST", "/api/leave", {
-        ...params,
-        app_uuid: resolveAppId(options, params.app_uuid),
-      }, req),
+      request(
+        "POST",
+        "/api/leave",
+        {
+          ...params,
+          app_uuid: resolveAppId(options, params.app_uuid),
+        },
+        req
+      ),
 
     message: (params, req) =>
-      request("POST", "/api/message", {
-        ...params,
-        app_uuid: resolveAppId(options, params.app_uuid),
-      }, req),
+      request(
+        "POST",
+        "/api/message",
+        {
+          ...params,
+          app_uuid: resolveAppId(options, params.app_uuid),
+        },
+        req
+      ),
     messageAlias: (params, req) =>
-      request("POST", "/api/message/alias", {
-        ...params,
-        app_uuid: resolveAppId(options, params.app_uuid),
-      }, req),
+      request(
+        "POST",
+        "/api/message/alias",
+        {
+          ...params,
+          app_uuid: resolveAppId(options, params.app_uuid),
+        },
+        req
+      ),
     messageRoom: (params, req) =>
       request("POST", "/api/message/room", params, req),
 
@@ -331,21 +376,36 @@ export function createHubSyncHttpClient(
         req
       ),
     disconnect: (params, req) =>
-      request("POST", "/api/disconnect", {
-        ...params,
-        app_uuid: resolveAppId(options, params.app_uuid),
-      }, req),
+      request(
+        "POST",
+        "/api/disconnect",
+        {
+          ...params,
+          app_uuid: resolveAppId(options, params.app_uuid),
+        },
+        req
+      ),
 
     scheduleAlias: (params, req) =>
-      request("POST", "/api/schedule/alias", {
-        ...params,
-        app_uuid: resolveAppId(options, params.app_uuid),
-      }, req),
+      request(
+        "POST",
+        "/api/schedule/alias",
+        {
+          ...params,
+          app_uuid: resolveAppId(options, params.app_uuid),
+        },
+        req
+      ),
     scheduleRoom: (params, req) =>
-      request("POST", "/api/schedule/room", {
-        ...params,
-        app_uuid: resolveAppId(options, params.app_uuid),
-      }, req),
+      request(
+        "POST",
+        "/api/schedule/room",
+        {
+          ...params,
+          app_uuid: resolveAppId(options, params.app_uuid),
+        },
+        req
+      ),
     listSchedules: (app_uuid, req) =>
       request(
         "GET",
