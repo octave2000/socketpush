@@ -162,7 +162,7 @@ export type HubSyncHttpClient = {
   ): Promise<T>;
 };
 
-const defaultBaseUrl = "https://ylpv246y.eu1.hubfly.app";
+const defaultBaseUrl = "https://boring-feynman-quvo40.eu1.hubfly.app";
 
 function resolveBaseUrl(baseUrl?: string) {
   return (baseUrl || defaultBaseUrl).replace(/\/+$/, "");
