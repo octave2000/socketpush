@@ -1,5 +1,11 @@
 # hubsync-web
 
+## 0.18.0
+
+### Minor Changes
+
+- url stable
+
 ## 0.17.0
 
 ### Minor Changes

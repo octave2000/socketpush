@@ -5,7 +5,7 @@ let socket: Socket | null = null;
 
 export function getSocket(): Socket {
   if (!socket && typeof window !== "undefined") {
-    socket = io("https://backend-8ndhso.eu1.hubfly.app");
+    socket = io("https://backend.hubsync.space");
   }
   return socket as Socket;
 }
