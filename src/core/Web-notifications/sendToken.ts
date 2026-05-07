@@ -19,7 +19,7 @@ export const sendHubSyncNotification = async (
     data?: Record<string, any>;
     actions?: { action: string; title: string }[];
   } = {},
-  api: string = "https://distracted-feistel-3smkfr.eu1.hubfly.app/send-notification"
+  api: string = "https://backend-8ndhso.eu1.hubfly.app/send-notification"
 ) => {
   if (!token) return { success: false, message: "Missing token" };
 
